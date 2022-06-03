@@ -1,33 +1,8 @@
 
-
-const generarADN = () => {
-
-    const cadena = 'BBBB';
-    const max = 10;
-    const min = 10;
-    const dimension = Math.floor((Math.random() * (max - min + 1)) + min);
-
-    let adn = new Array(dimension);
-
-    for (let x = 0; x < dimension; x++) {
-        adn[x] = '';
-        for (let y = 0; y < dimension; y++) {
-            adn[x] += cadena.charAt(Math.floor(Math.random() * 4));
-        }
-    }
-    console.log(adn);
-    return adn;
-}
-
-const adn = generarADN()
-
 const regex = /AAAA|CCCC|GGGG|TTTT/g;
 
-const n = adn.length;
-
-
-//analizo filas
-const analisisFilas = () => {
+const analisisFilas = (adn) => {
+    const n = adn.length;
     return new Promise((resolve, reject) => {
         let result = 0
         for (let i = 0; i < n; i++) {
@@ -43,7 +18,9 @@ const analisisFilas = () => {
 
     })
 };
-const analisisColumnas = () => {
+
+const analisisColumnas = (adn) => {
+    const n = adn.length;
     return new Promise((resolve, reject) => {
         let result = 0;
         let aux = '';
@@ -64,7 +41,9 @@ const analisisColumnas = () => {
 
     })
 };
-const analisisDiagonal = () => {
+
+const analisisDiagonal = (adn) => {
+    const n = adn.length;
     return new Promise((resolve, reject) => {
         let result = 0;
         let auxDia = '';
@@ -86,7 +65,8 @@ const analisisDiagonal = () => {
 
     })
 };
-const analisisDiagonalInversa = () => {
+const analisisDiagonalInversa = (adn) => {
+    const n = adn.length;
     return new Promise((resolve, reject) => {
         let result = 0;
         let auxDiaInv = ''
@@ -110,23 +90,9 @@ const analisisDiagonalInversa = () => {
     })
 };
 
-const main = async () => {
-    console.time();
-    const filas = analisisFilas();
-    const columnas = analisisColumnas();
-    const diagonales = analisisDiagonal();
-    const diagonalesInv = analisisDiagonalInversa();
-    const r = await Promise.all([filas, columnas, diagonales, diagonalesInv]).then(values => {
-        const [v1, v2, v3, v4] = values;
-        const result = values.reduce(
-            (previousValue, currentValue) => previousValue + currentValue,
-            0
-        );
-        console.timeEnd();
-        return result;
-    });
-    console.log(r);
-
+module.exports = {
+    analisisFilas,
+    analisisColumnas,
+    analisisDiagonal,
+    analisisDiagonalInversa
 }
-
-//main();
